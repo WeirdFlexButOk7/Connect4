@@ -6,6 +6,9 @@ let curr_board = []; //col x rows
 let player = 1;
 
 
+function modalHide() {
+    document.getElementById("modal").style.display = "none";
+}
 
 for (let i = 0; i < cols; i++) {
     let col = document.createElement("div");
@@ -118,7 +121,7 @@ function handleClick(e) {
     if (c >= 0) {
         let win = document.getElementById("win");
         // board.classList.add("hidden");
-        win.classList.remove("hidden")
+        win.classList.add("show")
         let p = document.getElementById()
         if (c == 0) win.firstChild.innerHTML = "Draw!";
         else win.firstChild.innerHTML = `Player ${c} won!`;

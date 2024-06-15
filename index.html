@@ -8,16 +8,18 @@
     <title>Connect 4</title>
 </head>
 <body>
-    <div class="win hidden" id="win">
+    <div class="win" id="win">
         <div class="square">        
-            <p id="win-text">
-            </p>
+            <p id="win-text">Player 1 won!</p>
+            <button id="again" style="border-radius: 5px; padding: 5px; font-family: monospace;" onclick="location.reload()">Play again</button>
         </div>
 
     </div>
-    <!-- <div class="modal" id="modal">
-        <button id="play" onclick="modalHide()">Play game</button>
-    </div> -->
+    <div class="modal" id="modal">
+        <div id="options">
+            <button id="play" style="border-radius: 5px; padding: 5px; font-family: monospace;" onclick="modalHide()">Play game</button>
+        </div>
+    </div>
     <div class="board" id="board">
     </div>
 

@@ -63,21 +63,27 @@ body {
 
 .modal {
     display: flex;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color:rgba(10, 10, 10, 0.427);    
     justify-content: center;
     align-items: center;
 }
 
-#play {
-    border-radius: 3px;
-    border: 2px solid white;
-    padding: 5px;
+#options {
+    width: 500px;
+    height: 300px;
+    border-radius: 10px;
     background-color: #181d33;
-    font-family: monospace;
-    color: azure;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .win {
-    /* display: flex; */
+    display: none;
     position: absolute;
     height: 100%;
     width: 100%;
@@ -87,13 +93,22 @@ body {
 }
 
 .square {
-    width: 300px;
-    height: 500px;
-
-    background-color: black;
+    width: 500px;
+    height: 300px;
+    border-radius: 10px;
+    background-color: #181d33;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 #win-text {
     font-family: monospace;
+    color: azure;
+    font-size: 48px;
+}
 
+.show { 
+    display: flex;
 }
