@@ -41,7 +41,8 @@ init();
 function move (col) {
     let i = col;
     let j = available_row[i];
-    if(j < 0) return;
+    console.log("row",j);
+    if(j < 0) return 0;
 
     let cell = document.getElementById(`${i}-${j}`);
     available_row[i]--;
@@ -53,72 +54,14 @@ function move (col) {
     }
     curr_board[i][j] = player;
     player ^= 3;
-}
-
-// unvisisted cells -> has class unvisisted
-// if col is clicked, get all children of unvisited class, remove unvisited class from last element
-
-function check_index(i,j) {
-    return (0 <= i && i < cols && 0 <= j && j < rows);
-}
-
-function check_status(board_) { //return player who won, 0 if draw, -1 if game continues.
-    //horizontal check
-    for(let i = 0; i < cols; i++) {
-        let c = 0; let maxc = 0;
-        for(let k = 1; k <= 2; k++){
-            c = 0;
-            for(let j = 0; j < rows;  j++) {
-                if(board_[i][j] == k) c++;
-                else c = 0;
-                maxc = Math.max(maxc,c);
-            }
-            if(maxc == 4) return k;
-        }
-    }
-    //vertical check
-    for(let j = 0; j < rows; j++) {
-        let c = 0; let maxc = 0;
-        for(let k = 1; k <= 2; k++){
-            c = 0;
-            for(let i = 0; i < cols; i++) {
-                if(board_[i][j] == k) c++;
-                else c = 0;
-                maxc = Math.max(maxc,c);
-            }
-            if(maxc == 4) return k;
-        }
-    }
-    //diagonal check
-    for(let i = 0; i < cols; i++) {
-        for(let j = 0; j < rows; j++) {
-            for(let k = 1; k <= 2; k++) {
-                for(let sign of [-1,1]) {
-                    let c = 0;
-                    if(check_index(i+3,j+3*sign)) {
-                        for(let it = 0; it < 4; it++) {
-                            if(board_[i+it][j+it*sign] == k) c++;
-                            else break;
-                        }
-                        if(c == 4) return k;
-                    }
-                }
-            }
-        }
-    }
-    // game continues 
-    for(let i = 0; i < cols; i++) {
-        for(let j = 0; j < rows; j++) {
-            if(board_[i][j] == 0) return -1;
-        }
-    }
-    //draw
-    return 0;
+    return 1;
 }
 
 function handleClick(e) {
     let id = e.target.id.toString()[0];
-    move(id);
+    console.log("move",id);
+    let status = move(id);
+    if(status == 0) return;
     let c = check_status(curr_board);
     if (c >= 0) {
         let result;
@@ -253,7 +196,7 @@ function AI_move() {
             temp_board[i][j] = 1;
             available_row[i]--;
             dont = 0;
-            
+
             for(let k = 0; k < cols; k++) {
                 let l = available_row[i];
                 if(l < 0) continue;
@@ -276,7 +219,65 @@ function AI_move() {
 
 }
 
-function init() {
+function check_index(i,j) {
+    return (0 <= i && i < cols && 0 <= j && j < rows);
+}
+
+function check_status(board_) { //return player who won, 0 if draw, -1 if game continues.
+    //horizontal check
+    for(let i = 0; i < cols; i++) {
+        let c = 0; let maxc = 0;
+        for(let k = 1; k <= 2; k++){
+            c = 0;
+            for(let j = 0; j < rows;  j++) {
+                if(board_[i][j] == k) c++;
+                else c = 0;
+                maxc = Math.max(maxc,c);
+            }
+            if(maxc == 4) return k;
+        }
+    }
+    //vertical check
+    for(let j = 0; j < rows; j++) {
+        let c = 0; let maxc = 0;
+        for(let k = 1; k <= 2; k++){
+            c = 0;
+            for(let i = 0; i < cols; i++) {
+                if(board_[i][j] == k) c++;
+                else c = 0;
+                maxc = Math.max(maxc,c);
+            }
+            if(maxc == 4) return k;
+        }
+    }
+    //diagonal check
+    for(let i = 0; i < cols; i++) {
+        for(let j = 0; j < rows; j++) {
+            for(let k = 1; k <= 2; k++) {
+                for(let sign of [-1,1]) {
+                    let c = 0;
+                    if(check_index(i+3,j+3*sign)) {
+                        for(let it = 0; it < 4; it++) {
+                            if(board_[i+it][j+it*sign] == k) c++;
+                            else break;
+                        }
+                        if(c == 4) return k;
+                    }
+                }
+            }
+        }
+    }
+    // game continues 
+    for(let i = 0; i < cols; i++) {
+        for(let j = 0; j < rows; j++) {
+            if(board_[i][j] == 0) return -1;
+        }
+    }
+    //draw
+    return 0;
+}
+
+function init() { //initialise weights
     for(let i = 0; i < cols; i++) {
         for(let j = 3; j < rows;  j++) {
             for(let k = 0; k < 4; k++) {
