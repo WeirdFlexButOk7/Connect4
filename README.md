@@ -1,5 +1,3 @@
-## A connect four project supporting one and two player modes.
+## A connect four project in single player mode.
 
-For one player mode, the AI opponent uses the Minimax Algorithm with some modifications.
-#
-For two player mode, both users play on the same device.
+The opponent moves are made using Minimax Algorithm with some modifications.
