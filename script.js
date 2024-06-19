@@ -132,9 +132,19 @@ function handleClick(e) {
         })
     }
     AI_move();
+    c = check_status(curr_board);
+    if (c >= 0) {
+        let win = document.getElementById("win");
+        // board.classList.add("hidden");
+        win.classList.add("show")
+        let p = document.getElementById()
+        if (c == 0) win.firstChild.innerHTML = "Draw!";
+        else win.firstChild.innerHTML = `Player ${c} won!`;
+        win.addEventListener("click", (e) => {
+            location.reload();
+        })
+    }
 }
-
-let temp_board = curr_board.map(row => row.slice());
 
 function minimax(to_max, depth, alpha, beta) {
     let x = to_max ? -Infinity : Infinity;
@@ -202,8 +212,27 @@ function AI_move() {
         }
         console.log(val,i);
     }
-    if(col == -1) console.log("FAILURE");
+
+    let temp_board = curr_board.map(row => row.slice());
+
+    for(let i = 0; i < cols; i++) {
+        let j = available_row[i];
+        if(j < 0) continue;
+        temp_board[i][j] = 2;
+        let res = check_status(temp_board);
+        if(res == 2) {
+            col = i; break;
+        }
+        temp_board[i][j] = 1;
+        res = check_status(temp_board);
+        if(res == 1) {
+            col = i; break;
+        }
+        temp_board[i][j] = 0;
+    }
+
     move(col);
+
 }
 
 function init() {
