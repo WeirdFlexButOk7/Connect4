@@ -10,10 +10,21 @@
 <body>
     <div class="win" id="win">
         <div class="square">        
-            <p id="win-text">Player 1 won!</p>
+            <p id="win-text">You lost! :(</p>
             <button id="again" style="border-radius: 5px; padding: 5px; font-family: monospace;" onclick="location.reload()">Play again</button>
         </div>
-
+    </div>
+    <div class="win" id="lost">
+        <div class="square">        
+            <p id="win-text">You won! :D</p>
+            <button id="again" style="border-radius: 5px; padding: 5px; font-family: monospace;" onclick="location.reload()">Play again</button>
+        </div>
+    </div>
+    <div class="win" id="draw">
+        <div class="square">        
+            <p id="win-text">Draw!</p>
+            <button id="again" style="border-radius: 5px; padding: 5px; font-family: monospace;" onclick="location.reload()">Play again</button>
+        </div>
     </div>
     <div class="modal" id="modal">
         <div id="options">

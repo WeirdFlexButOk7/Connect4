@@ -121,28 +121,21 @@ function handleClick(e) {
     move(id);
     let c = check_status(curr_board);
     if (c >= 0) {
-        let win = document.getElementById("win");
-        // board.classList.add("hidden");
-        win.classList.add("show")
-        let p = document.getElementById()
-        if (c == 0) win.firstChild.innerHTML = "Draw!";
-        else if(c == 1) win.firstChild.innerHTML = "You lost :(";
-        else win.firstChild.innerHTML = "You won! :D";
-        win.addEventListener("click", (e) => {
+        let result;
+        if (c == 0) result = document.getElementById("draw"); 
+        else if(c == 1) result = document.getElementById("win"); 
+        else result = document.getElementById("lost"); 
+        result.classList.add("show");
+        result.addEventListener("click", (e) => {
             location.reload();
         })
     }
     AI_move();
     c = check_status(curr_board);
     if (c >= 0) {
-        let win = document.getElementById("win");
-        // board.classList.add("hidden");
-        win.classList.add("show")
-        let p = document.getElementById()
-        if (c == 0) win.firstChild.innerHTML = "Draw!";
-        else if(c == 1) win.firstChild.innerHTML = "You lost :(";
-        else win.firstChild.innerHTML = "You won! :D";
-        win.addEventListener("click", (e) => {
+        let result = document.getElementById("win"); 
+        result.classList.add("show");
+        result.addEventListener("click", (e) => {
             location.reload();
         })
     }
