@@ -126,7 +126,8 @@ function handleClick(e) {
         win.classList.add("show")
         let p = document.getElementById()
         if (c == 0) win.firstChild.innerHTML = "Draw!";
-        else win.firstChild.innerHTML = `Player ${c} won!`;
+        else if(c == 1) win.firstChild.innerHTML = "You lost :(";
+        else win.firstChild.innerHTML = "You won! :D";
         win.addEventListener("click", (e) => {
             location.reload();
         })
@@ -139,7 +140,8 @@ function handleClick(e) {
         win.classList.add("show")
         let p = document.getElementById()
         if (c == 0) win.firstChild.innerHTML = "Draw!";
-        else win.firstChild.innerHTML = `Player ${c} won!`;
+        else if(c == 1) win.firstChild.innerHTML = "You lost :(";
+        else win.firstChild.innerHTML = "You won! :D";
         win.addEventListener("click", (e) => {
             location.reload();
         })
@@ -229,6 +231,36 @@ function AI_move() {
             col = i; break;
         }
         temp_board[i][j] = 0;
+    }
+
+    let t_j = available_row[col];
+    temp_board[col][t_j] = 1;
+    available_row[col]--;
+    let dont = 0;
+    for(let i = 0; i < cols; i++) {
+        let j = available_row[i];
+        if(j < 0) continue;
+        temp_board[i][j] = 2;
+        let res = check_status(temp_board);
+        if(res == 2) {
+            dont = 1; break;
+        }
+        temp_board[i][j] = 0;
+    }
+
+    temp_board[col][t_j] = 0;
+    available_row[col]++;
+    if(!dont) {
+        move(col); return;
+    } else {
+        for(let i = 0; i < cols; i++) {
+            if(i == col) continue;
+            let j = available_row[i];
+            if(j >= 0) {
+                move(i);
+                return;
+            }
+        }
     }
 
     move(col);
