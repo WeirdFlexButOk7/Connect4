@@ -41,11 +41,10 @@ init();
 function move (col) {
     let i = col;
     let j = available_row[i];
-    console.log("row",j);
     if(j < 0) return 0;
 
     let cell = document.getElementById(`${i}-${j}`);
-    available_row[i]--;
+    available_row[i]--; 
     cell.classList.remove("unvisited");
     if(player == 1) {
         cell.classList.add("player1");
@@ -59,9 +58,9 @@ function move (col) {
 
 function handleClick(e) {
     let id = e.target.id.toString()[0];
-    console.log("move",id);
     let status = move(id);
     if(status == 0) return;
+
     let c = check_status(curr_board);
     if (c >= 0) {
         let result;
@@ -76,7 +75,10 @@ function handleClick(e) {
     AI_move();
     c = check_status(curr_board);
     if (c >= 0) {
-        let result = document.getElementById("win"); 
+        let result;
+        if (c == 0) result = document.getElementById("draw"); 
+        else if(c == 1) result = document.getElementById("win"); 
+        else result = document.getElementById("lost"); 
         result.classList.add("show");
         result.addEventListener("click", (e) => {
             location.reload();
@@ -103,9 +105,9 @@ function minimax(to_max, depth, alpha, beta) {
             val += weights[i][j];
 
             x = Math.max(x,val);
-            // alpha = Math.max(alpha,x);
+            alpha = Math.max(alpha,x);
 
-            // if(beta <= alpha) break;
+            if(beta <= alpha) break;
         }
     } else {
         for(let i = 0; i < cols; i++) {
@@ -123,9 +125,9 @@ function minimax(to_max, depth, alpha, beta) {
             val -= weights[i][j];
 
             x = Math.min(x,val);
-            // beta = Math.min(beta,x);
+            beta = Math.min(beta,x);
 
-            // if(beta <= alpha) break; 
+            if(beta <= alpha) break; 
         }
 
     }
@@ -153,68 +155,61 @@ function AI_move() {
     }
 
     let x = -Infinity; 
-    let col = -1;
+    let poss = []
 
     for(let i = 0; i < cols; i++) {
+        poss.push(0);
         let j = available_row[i];
         if(j < 0) continue;
 
         available_row[i]--;
-        let val = - minimax(false,5,-Infinity,Infinity);
+        let val = - minimax(false,12,-Infinity,Infinity);
         available_row[i]++;
         val += weights[i][j];
-        if(val > x) {
-            x = val;
+        poss[i] = val;
+    }
+
+    let dont = []
+
+    for(let i = 0; i < cols; i++) {
+        dont.push(1);
+        let j = available_row[i];
+        if(j < 0) continue; 
+
+        temp_board[i][j] = 1;
+        available_row[i]--;
+        let dont2 = 0;
+        for(let k = 0; k < cols; k++) {
+            let l = available_row[k];
+            if(l < 0) continue;
+            temp_board[k][l] = 2;
+            let res = check_status(temp_board);
+            temp_board[k][l] = 0;
+            if(res == 2) {
+                dont2 = 1; break;
+            }
+        }   
+        temp_board[i][j] = 0;
+        available_row[i]++;
+        dont[i] = dont2;
+    }
+
+    let col = -1;
+    let cant_col=-1;
+    let val = -Infinity;
+
+    for(let i = 0; i < cols; i++) {
+        let j = available_row[i];
+        if(j < 0) continue;
+        if(cant_col == -1) cant_col = i;
+        if(dont[i]) continue;
+        if(val < poss[i]) {
+            val = poss[i];
             col = i;
         }
     }
 
-    let t_j = available_row[col];
-    temp_board[col][t_j] = 1;
-    available_row[col]--;
-    let dont = 0;
-    for(let i = 0; i < cols; i++) {
-        let j = available_row[i];
-        if(j < 0) continue;
-        temp_board[i][j] = 2;
-        let res = check_status(temp_board);
-        temp_board[i][j] = 0;
-        if(res == 2) {
-            dont = 1; break;
-        }
-    }
-
-    temp_board[col][t_j] = 0;
-    available_row[col]++;
-
-    if(dont) {
-        for(let i = 0; i < cols; i++) {
-            if(i == col) continue;
-            let j = available_row[i];
-            if(j < 0) continue; 
-
-            temp_board[i][j] = 1;
-            available_row[i]--;
-            dont = 0;
-
-            for(let k = 0; k < cols; k++) {
-                let l = available_row[i];
-                if(l < 0) continue;
-                temp_board[k][l] = 2;
-                let res = check_status(temp_board);
-                temp_board[k][l] = 0;
-                if(res == 2) {
-                    dont = 1; break;
-                }
-            }   
-            temp_board[i][j] = 0;
-            available_row[i]++;
-
-            if(dont) continue;
-            move(i); return;
-        }
-    }
-
+    if(col == -1) move(cant_col);
     move(col);
 
 }
