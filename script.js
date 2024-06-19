@@ -36,7 +36,7 @@ for (let i = 0; i < cols; i++) {
     board.appendChild(col);
 }
 
-init(); console.log(weights);
+init(); 
 
 function move (col) {
     let i = col;
@@ -190,6 +190,25 @@ function minimax(to_max, depth, alpha, beta) {
 }
 
 function AI_move() {
+    let temp_board = curr_board.map(row => row.slice());
+
+    for(let i = 0; i < cols; i++) {
+        let j = available_row[i];
+        if(j < 0) continue;
+        temp_board[i][j] = 2;
+        let res = check_status(temp_board);
+        temp_board[i][j] = 0;
+        if(res == 2) {
+            move(i); return;
+        }
+        temp_board[i][j] = 1;
+        res = check_status(temp_board);
+        temp_board[i][j] = 0;
+        if(res == 1) {
+            move(i); return;
+        }
+    }
+
     let x = -Infinity; 
     let col = -1;
 
@@ -205,25 +224,6 @@ function AI_move() {
             x = val;
             col = i;
         }
-        console.log(val,i);
-    }
-
-    let temp_board = curr_board.map(row => row.slice());
-
-    for(let i = 0; i < cols; i++) {
-        let j = available_row[i];
-        if(j < 0) continue;
-        temp_board[i][j] = 2;
-        let res = check_status(temp_board);
-        if(res == 2) {
-            col = i; break;
-        }
-        temp_board[i][j] = 1;
-        res = check_status(temp_board);
-        if(res == 1) {
-            col = i; break;
-        }
-        temp_board[i][j] = 0;
     }
 
     let t_j = available_row[col];
@@ -235,24 +235,40 @@ function AI_move() {
         if(j < 0) continue;
         temp_board[i][j] = 2;
         let res = check_status(temp_board);
+        temp_board[i][j] = 0;
         if(res == 2) {
             dont = 1; break;
         }
-        temp_board[i][j] = 0;
     }
 
     temp_board[col][t_j] = 0;
     available_row[col]++;
-    if(!dont) {
-        move(col); return;
-    } else {
+
+    if(dont) {
         for(let i = 0; i < cols; i++) {
             if(i == col) continue;
             let j = available_row[i];
-            if(j >= 0) {
-                move(i);
-                return;
-            }
+            if(j < 0) continue; 
+
+            temp_board[i][j] = 1;
+            available_row[i]--;
+            dont = 0;
+            
+            for(let k = 0; k < cols; k++) {
+                let l = available_row[i];
+                if(l < 0) continue;
+                temp_board[k][l] = 2;
+                let res = check_status(temp_board);
+                temp_board[k][l] = 0;
+                if(res == 2) {
+                    dont = 1; break;
+                }
+            }   
+            temp_board[i][j] = 0;
+            available_row[i]++;
+
+            if(dont) continue;
+            move(i); return;
         }
     }
 
