@@ -28,7 +28,36 @@
     </div>
     <div class="modal" id="modal">
         <div id="options">
-            <button id="play" style="border-radius: 5px; padding: 5px; font-family: monospace;" onclick="modalHide()">Play game</button>
+            <div id="menu-page">
+                <h1 style="color: grey;">Welcome to Connect4!</h1>
+                <br><br><br><br><br>
+                <button id="sing" style="border-radius: 5px; padding: 5px; font-family: monospace;" onclick="singlePlayer()">Single Player</button>
+                <p style="color: grey;">Play with our AI!</p>
+                <br><br>
+                <button id="mult" style="border-radius: 5px; padding: 5px; font-family: monospace;" onclick="multiPlayer()">Multi Player</button>
+                <p style="color: grey;">Play with another player!</p>
+            </div>
+            <div id="multi-player">
+                <h1 style="color: grey;">MultiPlayer</h1>
+                <br><br><br><br><br>
+                <button id="_createGame" style="border-radius: 5px; padding: 5px; font-family: monospace;" onclick="createGame()">Create Game</button>
+                <br><br>
+                <button id="_joinGame" style="border-radius: 5px; padding: 5px; font-family: monospace;" onclick="joinGame()">Join Game</button>
+                <input id="gameIdInput" type="text" placeholder="Enter game id">
+            </div>
+            <div id="single-player">
+                <h1 style="color: grey;">SinglePlayer</h1>
+                <br><br>
+                <h2 style="color: grey;">Who goes first?</h2>
+                <br><br><br><br><br>
+                <button id="_aiFirst" style="border-radius: 5px; padding: 5px; font-family: monospace;" onclick="aiFirst()">AI</button>
+                <button id="_userFirst" style="border-radius: 5px; padding: 5px; font-family: monospace;" onclick="userFirst()">You</button>
+            </div>
+            <div id="await-player">
+                <h1 style="color: grey;">Waiting for player to join</h1>
+                <br><br>
+                <p id="game-id" style="color: grey;">Hello</p>
+            </div>
         </div>
     </div>
     <div class="board" id="board">
