@@ -22,7 +22,7 @@ To run the **Multiplayer** server locally, follow these steps:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/connect-four.git
+git clone https://github.com/WeirdFlexButOk7/Connect4.git
 cd connect-four
 ```
 
