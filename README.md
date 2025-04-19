@@ -1,21 +1,20 @@
-# Connect Four Game 🎮
+# Connect Four Game
 
 A web-based **Connect Four** application that supports both **Single Player** and **Multiplayer** modes.
 
 ---
 
-## 🧠 Single Player Mode
+## Single Player Mode
 
 Play against an AI opponent that uses the **Minimax Algorithm** with **Alpha-Beta Pruning** for efficient decision-making.
 
-👉 Try it out here: [connect-four-now.vercel.app](https://connect-four-now.vercel.app/)
+Try it out here: [connect-four-now.vercel.app](https://connect-four-now.vercel.app/)
 
 ---
 
-## 👥 Multiplayer Mode
+## Multiplayer Mode
 
 Multiplayer functionality is implemented using **WebSockets**. Two players can connect and play from different devices.
-
 
 To run the multiplayer server locally:
 
