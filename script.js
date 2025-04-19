@@ -323,17 +323,19 @@ function AI_move() {
   for (let i = 0; i < cols; i++) {
     let j = available_row[i];
     if (j < 0) continue;
-    temp_board[i][j] = 2;
+    
+    temp_board[i][j] = 1;
     let res = check_status(temp_board);
     temp_board[i][j] = 0;
-    if (res == 2) {
+    if (res == 1) {
       move(i);
       return;
     }
-    temp_board[i][j] = 1;
+
+    temp_board[i][j] = 2;
     res = check_status(temp_board);
     temp_board[i][j] = 0;
-    if (res == 1) {
+    if (res == 2) {
       move(i);
       return;
     }
