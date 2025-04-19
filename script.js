@@ -93,7 +93,6 @@ function multiPlayer() {
           player = response.player;
           console.log("move from " + player + " " + clientId);
           move(col);
-          console.log("made move");
 
           const info_player = document.getElementById("info-player");
           const thisPlayer = response.playerId;
@@ -261,9 +260,6 @@ function handleClick(e) {
 
 function declareWinner(thisPlayer, winner) {
   let result;
-  console.log(thisPlayer);
-  console.log(winner);
-  console.log(thisPlayer === winner);
   if (winner === 0) result = document.getElementById("draw");
   else if (winner === thisPlayer) result = document.getElementById("win");
   else result = document.getElementById("lost");
@@ -331,6 +327,11 @@ function AI_move() {
       move(i);
       return;
     }
+  }
+
+  for (let i = 0; i < cols; i++) {
+    let j = available_row[i];
+    if (j < 0) continue;
 
     temp_board[i][j] = 2;
     res = check_status(temp_board);
