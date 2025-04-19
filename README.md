@@ -1,19 +1,43 @@
-## A connect four application
+# Connect Four Game 🎮
 
-Supports both single player and multi-player mode!
+A web-based **Connect Four** application that supports both **Single Player** and **Multiplayer** modes.
 
-### Single player:
+---
 
-The opponent moves are made using Minimax Algorithm with alpha-beta pruning and some modifications.
+## 🚀 Features
 
-Try out single player here: https://connect-four-now.vercel.app/
+- **Single Player Mode**: Challenge an AI powered by the Minimax Algorithm with Alpha-Beta Pruning and game-specific optimizations.
+- **Multiplayer Mode**: Play with a friend over the network using WebSockets.
 
-### Multi player:
+---
 
-Implemented using websockets; two players can play against each other.
+## 🧠 Single Player Mode
 
-Clone the repository and execute the following commands to try out multi player
+Play against an AI opponent that uses the **Minimax Algorithm** with **Alpha-Beta Pruning** for efficient decision-making.
 
-```npm install express websocket cors ```
+👉 Try it out here: [connect-four-now.vercel.app](https://connect-four-now.vercel.app/)
 
-```node server.js```
+---
+
+## 👥 Multiplayer Mode
+
+Multiplayer functionality is implemented using **WebSockets**. Two players can connect and play from different devices.
+
+
+To run the multiplayer server locally:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/connect-four.git
+   cd connect-four
+   ```
+
+2. Install the required dependencies:
+   ```bash
+   npm install express websocket cors
+   ```
+
+3. Start the server:
+   ```bash
+   node server.js
+   ```
