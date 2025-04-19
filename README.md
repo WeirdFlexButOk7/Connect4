@@ -34,7 +34,7 @@ npm ci
 
 ### 3. Update the API and WebSocket URLs
 
-In the `server.js` file, update the URLs for the server and WebSocket to point to your local server.
+In the `script.js` file, update the URLs for the server and WebSocket to point to your local server.
 
 ```javascript
 fetch("http://localhost:9090/server-status")

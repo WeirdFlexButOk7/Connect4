@@ -134,6 +134,10 @@ app.get("/server-status", (req, res) => {
   res.json({ status: "ready" });
 });
 
+app.get("/", (req, res) => {
+  res.send("Welcome to Connect Four Multiplayer Server!");
+});
+
 const PORT = 9090;
 httpServer.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
