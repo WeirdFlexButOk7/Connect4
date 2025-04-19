@@ -46,11 +46,13 @@ function multiPlayer() {
   document.getElementById("menu-page").style.display = "none";
   document.getElementById("multi-player").style.display = "flex";
 
-  fetch("http://localhost:9090/server-status")
+  // fetch("http://localhost:9090/server-status")  //if you want to use in localhost
+  fetch("https://connect-four-now.up.railway.app/server-status")
     .then((response) => response.json())
     .then((data) => {
       console.log("Server status:", data.status);
-      ws = new WebSocket("ws://localhost:9090");
+      // ws = new WebSocket("ws://localhost:9090");  //if you want to use in localhost
+      ws = new WebSocket("wss://connect-four-now.up.railway.app");
 
       ws.onopen = () => {
         console.log("WebSocket connection established");
