@@ -26,7 +26,7 @@ To run the multiplayer server locally:
 
 2. Install the required dependencies:
    ```bash
-   npm install express websocket cors
+   npm ci
    ```
 
 3. Start the server:
