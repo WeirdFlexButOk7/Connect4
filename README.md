@@ -4,13 +4,6 @@ A web-based **Connect Four** application that supports both **Single Player** an
 
 ---
 
-## 🚀 Features
-
-- **Single Player Mode**: Challenge an AI powered by the Minimax Algorithm with Alpha-Beta Pruning and game-specific optimizations.
-- **Multiplayer Mode**: Play with a friend over the network using WebSockets.
-
----
-
 ## 🧠 Single Player Mode
 
 Play against an AI opponent that uses the **Minimax Algorithm** with **Alpha-Beta Pruning** for efficient decision-making.
