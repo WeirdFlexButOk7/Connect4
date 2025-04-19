@@ -74,9 +74,13 @@ wsServer.on("request", (request) => {
       const gameId = result.gameId;
       const col = result.col;
       let player;
+      let client;
 
       for (const [clientId, playerId] of games[gameId].clients) {
-        if (clientId == result.clientId) player = playerId;
+        if (clientId == result.clientId) {
+          player = playerId;
+          client = clientId;
+        }
       }
 
       if (games[gameId].prevPlayer === player) return;
@@ -90,25 +94,25 @@ wsServer.on("request", (request) => {
           method: "play",
           player: player,
           col: col,
+          playerId: playerId
         };
         clients[clientId].connection.send(JSON.stringify(payload));
       }
+      const payload = {
+        method: "check-status",
+        player: player,
+        client: client
+      }
+      clients[client].connection.send(JSON.stringify(payload));
     }
 
     if (result.method === "end") {
-      const gameId = result.gameId;
-      let player;
-
-      for (const [clientId, playerId] of games[gameId].clients) {
-        if (clientId == result.clientId) player = playerId;
-      }
-
-      for (const [clientId, playerId] of games[gameId].clients) {
+      for (const [clientId, playerId] of games[result.gameId].clients) {
         console.log(clientId);
         const payload = {
           method: "end",
-          player: player, //winner
-          playerId: playerId,
+          player: result.player, //winner
+          playerId: playerId
         };
         clients[clientId].connection.send(JSON.stringify(payload));
       }

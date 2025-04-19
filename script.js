@@ -78,12 +78,12 @@ function multiPlayer() {
         if (response.method === "join") {
           gameId = response.game.id;
           console.log("game successfully joined with id " + response.game.id);
-          document.getElementById("modal").style.display = "none";
+          gameStarts("You joined the game successfully!");
         }
 
         if (response.method === "player-joined") {
           console.log("Second player has joined! Starting game...");
-          document.getElementById("modal").style.display = "none";
+          gameStarts("Someone joined your game!");
         }
 
         if (response.method === "play") {
@@ -92,6 +92,32 @@ function multiPlayer() {
           console.log("move from " + player + " " + clientId);
           move(col);
           console.log("made move");
+
+          const info_player = document.getElementById("info-player");
+          const thisPlayer = response.playerId;
+
+          if(player === 1) { //red
+            info_player.style.color = "red";
+            info_player.textContent = (player === thisPlayer ? "Your" : "Red");
+          } else { //blue
+            info_player.style.color = "blue";
+            info_player.textContent = (player === thisPlayer ? "Your" : "Blue");
+          }
+
+          document.getElementById("info-turn").textContent = (player === thisPlayer ? "" : "\' s") + " turn";
+        }
+
+        if (response.method === "check-status") {
+          let c = check_status(curr_board);
+          console.log(c);
+          if (c >= 0) {
+            const payload = {
+              method: "end",
+              gameId: gameId,
+              player: c
+            };
+            ws.send(JSON.stringify(payload));
+          }
         }
 
         if (response.method === "end") {
@@ -114,6 +140,47 @@ function multiPlayer() {
     });
 }
 
+function gameStarts(msg) {
+  console.log(msg);
+  document.getElementById("multi-player").style.display = "none";
+  await_player = document.getElementById("await-player");
+  await_player.style.display = "flex";
+  await_player.innerHTML = "";
+
+  const message = document.createElement("h2");
+  message.textContent = msg;
+  message.style.color = "green";
+  await_player.appendChild(message);
+
+  const countdown = document.createElement("h1");
+  countdown.style.color = "red";
+  await_player.appendChild(countdown);
+
+  let seconds = 3;
+
+  const interval = setInterval(() => {
+      countdown.textContent = "Game starts in " + seconds;
+
+      if (seconds === 0) {
+          countdown.textContent = "Go!";
+          document.getElementById("modal").style.display = "none";
+          const infoDiv = document.getElementById("info");
+          const infoText = document.createElement("h2");
+          const playerText = document.createElement("span"); playerText.id = "info-player"; 
+          const turnText = document.createElement("span"); turnText.id = "info-turn";
+          turnText.textContent = "Anyone can start";
+          infoText.appendChild(playerText);
+          infoText.appendChild(turnText);
+          infoDiv.appendChild(infoText); 
+          infoDiv.style.display = "block"; 
+          clearInterval(interval);
+      }
+
+      seconds--;
+  }, 1000);
+
+}
+
 function singlePlayer() {
   document.getElementById("menu-page").style.display = "none";
   document.getElementById("single-player").style.display = "flex";
@@ -134,11 +201,11 @@ function createGame() {
     method: "create",
     clientId: clientId,
   };
-  console.log(payLoad);
   ws.send(JSON.stringify(payLoad));
 }
 
 function joinGame() {
+  if(!document.getElementById("gameIdInput").value) return;
   if (gameId === null) gameId = document.getElementById("gameIdInput").value;
   const payLoad = {
     method: "join",
@@ -179,35 +246,26 @@ function handleClick(e) {
       clientId: clientId,
     };
     ws.send(JSON.stringify(payload));
-    let c = check_status(curr_board);
-    if (c >= 0) {
-      const payload = {
-        method: "end",
-        gameId: gameId,
-        clientId: clientId,
-      };
-      ws.send(JSON.stringify(payload));
-    }
   } else {
     let status = move(id);
     if (status == 0) return;
     let c = check_status(curr_board);
-    if (c >= 0) declareWinner(c, 1);
+    if (c >= 0) declareWinner(1, c);
     AI_move();
     c = check_status(curr_board);
-    if (c >= 0) declareWinner(c, 1);
+    if (c >= 0) declareWinner(2, c);
   }
 }
 
-function declareWinner(c, winner) {
+function declareWinner(thisPlayer, winner) {
   let result;
-  if (c == 0) result = document.getElementById("draw");
-  else if (c == winner) result = document.getElementById("win");
+  console.log(thisPlayer);
+  console.log(winner);
+  console.log(thisPlayer === winner);
+  if (winner === 0) result = document.getElementById("draw");
+  else if (winner === thisPlayer) result = document.getElementById("win");
   else result = document.getElementById("lost");
   result.classList.add("show");
-  result.addEventListener("click", (e) => {
-    location.reload();
-  });
 }
 
 function minimax(to_max, depth, alpha, beta) {
