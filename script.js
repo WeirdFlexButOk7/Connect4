@@ -251,7 +251,10 @@ function handleClick(e) {
     let status = move(id);
     if (status == 0) return;
     let c = check_status(curr_board);
-    if (c >= 0) declareWinner(1, c);
+    if (c >= 0) {
+      declareWinner(2, c);
+      return;
+    }
     AI_move();
     c = check_status(curr_board);
     if (c >= 0) declareWinner(2, c);
@@ -260,6 +263,7 @@ function handleClick(e) {
 
 function declareWinner(thisPlayer, winner) {
   let result;
+  console.log(thisPlayer, winner);
   if (winner === 0) result = document.getElementById("draw");
   else if (winner === thisPlayer) result = document.getElementById("win");
   else result = document.getElementById("lost");
@@ -316,6 +320,11 @@ function minimax(to_max, depth, alpha, beta) {
 function AI_move() {
   let temp_board = curr_board.map((row) => row.slice());
 
+  if(available_row[3] == 5) {
+    move(3);
+    return;
+  }
+
   for (let i = 0; i < cols; i++) {
     let j = available_row[i];
     if (j < 0) continue;
@@ -334,7 +343,7 @@ function AI_move() {
     if (j < 0) continue;
 
     temp_board[i][j] = 2;
-    res = check_status(temp_board);
+    let res = check_status(temp_board);
     temp_board[i][j] = 0;
     if (res == 2) {
       move(i);
@@ -398,8 +407,19 @@ function AI_move() {
     }
   }
 
+  for (let i = 0; i < cols - 3; i++) {
+    if(available_row[i] == available_row[i+3] && available_row[i] >= 0) {
+      let j = available_row[i];
+      if(curr_board[i+1][j] == 2 && curr_board[i+2][j] == 2) {
+        if(dont[i]) move(i+3);
+        else move(i);
+        return;
+      }
+    }
+  }
+
   if (col == -1) move(cant_col);
-  move(col);
+  else move(col);
 }
 
 function check_index(i, j) {
