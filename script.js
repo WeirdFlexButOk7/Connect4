@@ -408,10 +408,19 @@ function AI_move() {
   }
 
   for (let i = 0; i < cols - 3; i++) {
-    if(available_row[i] == available_row[i+3] && available_row[i] >= 0) {
-      let j = available_row[i];
+    let j = available_row[i];
+    if(j == available_row[i+3] && j >= 0) {
       if(curr_board[i+1][j] == 2 && curr_board[i+2][j] == 2) {
         if(dont[i]) move(i+3);
+        else move(i);
+        return;
+      }
+    }
+    if(i < cols - 4 && available_row[i+4] == j && available_row[i+2] == j && j >= 0) {
+      if(curr_board[i+1][j] == 2 && curr_board[i+3][j] == 2) {
+        if(!dont[i+2]) move(i+2);
+        else if(!dont[i] && !dont[i+4]) move(i + (Math.random() < 0.5 ? 0 : 4));
+        else if(dont[i]) move(i+4);
         else move(i);
         return;
       }
