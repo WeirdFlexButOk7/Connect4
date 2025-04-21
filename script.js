@@ -249,7 +249,7 @@ function move(col) {
 }
 
 function handleClick(e) {
-  let id = e.target.id.toString()[0];
+  let id = +e.target.id.toString()[0];
 
   if (gameId !== null) {
     //multiplayer mode
