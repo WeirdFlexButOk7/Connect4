@@ -61,6 +61,13 @@ body {
     background-color: #2b21de;    
 }
 
+.mark {
+    background-image: url('mark.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+   
 .hidden {
     display: none;
 }

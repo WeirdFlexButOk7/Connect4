@@ -101,7 +101,8 @@ wsServer.on("request", (request) => {
       const payload = {
         method: "check-status",
         player: player,
-        client: client
+        client: client,
+        col: col
       }
       clients[client].connection.send(JSON.stringify(payload));
     }
@@ -112,7 +113,8 @@ wsServer.on("request", (request) => {
         const payload = {
           method: "end",
           player: result.player, //winner
-          playerId: playerId
+          playerId: playerId,
+          col: result.col
         };
         clients[clientId].connection.send(JSON.stringify(payload));
       }
