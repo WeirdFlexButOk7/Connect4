@@ -9,6 +9,13 @@ Note: To play multiplayer, you HAVE to run the game locally since free hosting o
 
 ---
 
+## Deployment
+
+- **Frontend**: The frontend is hosted on [Vercel](https://vercel.com/) and can be accessed at [connect-four-now.vercel.app](https://connect-four-now.vercel.app/).
+- **Backend**: The backend server is hosted on [Railway](https://railway.app/) at [connect-four-now.up.railway.app](https://connect-four-now.up.railway.app/).
+
+---
+
 ## Features
 
 - **Single Player Mode**: Play against an AI opponent powered by the **Minimax Algorithm** with **Alpha-Beta Pruning** and game-specific optimisations.
@@ -54,10 +61,3 @@ node server.js
 ```
 
 This will start the server on your local machine, and you can access the game by opening the `index.html` in your browser.
-
----
-
-## Deployment
-
-- **Frontend**: The frontend is hosted on [Vercel](https://vercel.com/) and can be accessed at [connect-four-now.vercel.app](https://connect-four-now.vercel.app/).
-- **Backend**: The backend server is hosted on [Railway](https://railway.app/) at [connect-four-now.up.railway.app](https://connect-four-now.up.railway.app/).
