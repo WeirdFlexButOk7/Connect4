@@ -5,6 +5,8 @@ A web-based **Connect Four** application with support for both **Single Player**
 
 You can play the game online here: [connect-four-now.vercel.app](https://connect-four-now.vercel.app/)
 
+Note: To play multiplayer, you HAVE to run the game locally since free hosting on Railway ended :(
+
 ---
 
 ## Features
